@@ -31,6 +31,9 @@ function createGetStoxNumber(createOpts) {
   function getStoxNumber(seed, done) {
     var direction = pickUpOrDown(seed);
     var amount = direction * getExtent(seed).toFixed(1);
+    if (amount > 0) {
+      amount = '+' + amount;
+    }
     var directionSymbol;
     if (direction < 0) {
       directionSymbol = pickFromArray(downSymbols);
