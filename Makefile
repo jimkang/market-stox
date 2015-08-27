@@ -1,5 +1,5 @@
 HOMEDIR = $(shell pwd)
-GITDIR = /var/repos/market-numbers.git
+GITDIR = /var/repos/market-stox.git
 
 test:
 	node tests/basictests.js

@@ -1,5 +1,5 @@
 {
-  "name": "market-numbers",
+  "name": "market-stox",
   "version": "1.0.0",
   "description": "Does some cool things.",
   "main": "index.js",
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:jimkang/market-numbers.git"
+    "url": "git@github.com:jimkang/market-stox.git"
   },
   "keywords": [],
   "author": "Jim Kang",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jimkang/market-numbers/issues"
+    "url": "https://github.com/jimkang/market-stox/issues"
   },
-  "homepage": "https://github.com/jimkang/market-numbers",
+  "homepage": "https://github.com/jimkang/market-stox",
   "devDependencies": {
     "tape": "^3.0.3"
   },

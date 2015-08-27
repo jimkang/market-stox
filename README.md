@@ -1,4 +1,4 @@
-market-numbers
+market-stox
 ==================
 
 To use node-module-boilerplate:
