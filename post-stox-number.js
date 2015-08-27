@@ -7,6 +7,7 @@ var createGetRandomStockSymbol = require('./get-random-stock-symbol');
 var seedrandom = require('seedrandom');
 var emojisource = require('emojisource');
 var getRandomFollowerUsername = require('./get-random-follower-username');
+var createWordnok = require('wordnok').createWordnok;
 
 var dryRun = false;
 if (process.argv.length > 2) {
@@ -14,6 +15,10 @@ if (process.argv.length > 2) {
 }
 
 var twit = new Twit(config.twitter);
+
+var wordnok = createWordnok({
+  apiKey: config.wordnikAPIKey
+});
 
 function postTweet(text, done) {
   if (dryRun) {
@@ -29,7 +34,6 @@ function postTweet(text, done) {
 }
 
 function wrapUp(error, data) {
-  debugger;
   if (error) {
     console.log(error, error.stack);
 
@@ -38,7 +42,6 @@ function wrapUp(error, data) {
     }
   }
 }
-
 
 ((function go() {
   var seed = (new Date()).toISOString();
@@ -78,8 +81,12 @@ function wrapUp(error, data) {
   }
 
   function getStockSymbol(done) {
-    if (probable.roll(4) === 0) {
+    var roll = probable.roll(4);
+    if (roll === 0) {
       getRandomFollowerUsername(twit, probable.pickFromArray, done);
+    }
+    else if (roll == 1) {
+      wordnok.getTopic(done);
     }
     else {
       getRandomStockSymbol(done);
@@ -89,7 +96,6 @@ function wrapUp(error, data) {
   var getStoxNumber = createGetStoxNumber({
     pickFromArray: probable.pickFromArray,
     getExtent: getStockChangeExtent,
-    // TODO: stockSymbols should be an async function, not a list.
     getStockSymbol: getStockSymbol,
     // TODO: Should be in a data file.
     upSymbols: ['↑', '⇑', '⇡', '⇧', '⇧', '⇪', '⟰', '⥠', '⇯', '⇈', '⇮', '⇭', '⥘', '⥔', '⇬', '⇫', '↿', '↾', '↥', '⤊', '↟', '⤉', '⇞', '⤒', '⥉'],

@@ -1,13 +1,13 @@
 function getRandomFollowerUsername(twit, pickFromArray, done) {
-  twit.get('friends/ids', pickIdFromFriends);
+  twit.get('followers/ids', pickIdFromFollowers);
 
-  function pickIdFromFriends(error, friendsData) {
+  function pickIdFromFollowers(error, followersData) {
     if (error) {
       done(error);
     }
     else {
       var showUsersParams = {
-        user_id: pickFromArray(friendsData.ids)
+        user_id: pickFromArray(followersData.ids)
       };
       twit.get('users/show', showUsersParams, passBackScreenName);
     }
