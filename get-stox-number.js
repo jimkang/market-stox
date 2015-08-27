@@ -18,6 +18,16 @@ function createGetStoxNumber(createOpts) {
     getCommentary = createOpts.getCommentary;
   }
 
+  if (!pickFromArray) {
+    throw new Error('No pickFromArray provided to createGetStoxNumber.');
+  }
+
+  if (!pickUpOrDown) {
+    pickUpOrDown = function defaultUpOrDown(seed) {
+      return pickFromArray([-1, 1]);
+    };
+  }
+
   function getStoxNumber(seed) {
     var stock = pickFromArray(stockSymbols);
     var direction = pickUpOrDown(seed);
