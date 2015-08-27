@@ -1,8 +1,9 @@
 var test = require('tape');
 var createGetStoxNumber = require('../get-stox-number');
+var callNextTick = require('call-next-tick');
 
 test('Basic test', function basicTest(t) {
-  t.plan(1);
+  t.plan(2);
 
   function mockPick(array) {
     return array[0];
@@ -20,17 +21,24 @@ test('Basic test', function basicTest(t) {
     return '♥️';
   }
 
+  function mockGetSymbol(done) {
+    callNextTick(done, null, 'AAPL');
+  }
+
   var getStoxNumber = createGetStoxNumber({
     pickFromArray: mockPick,
     pickUpOrDown: mockPickUpOrDown,
     getExtent: mockGetExtent,
-    stockSymbols: ['AAPL', 'SMGO', 'WZRD'],
+    getStockSymbol: mockGetSymbol,
     upSymbols: ['↑', '⇑', '⇡', '⇧', '⇧', '⇪', '⟰', '⥠', '⇯', '⇈', '⇮', '⇭', '⥘', '⥔', '⇬', '⇫', '↿', '↾', '↥', '⤊', '↟', '⤉', '⇞', '⤒', '⥉'],
     downSymbols: ['↓', '⇓', '⇩', '⇣', '☟', '⥥', '↡', '↧', '⤋', '⟱', '⇟', '⇊', '⥡', '⤈', '↯', '⥝', '⇃', '⥙', '⇂', '⥕'],
     getCommentary: mockGetCommentary
   });
 
-  t.equal(getStoxNumber(
-    (new Date()).toISOString()), 'AAPL ↓ -500.5 ♥️', 'Generates stox number.'
-  );
+  getStoxNumber((new Date()).toISOString(), checkStox);
+
+  function checkStox(error, stox) {
+    t.ok(!error, 'No error whe getting stox number.');
+    t.equal(stox, 'AAPL ↓ -500.5 ♥️', 'Generates stox number.');
+  }
 });

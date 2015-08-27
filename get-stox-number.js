@@ -2,7 +2,7 @@ function createGetStoxNumber(createOpts) {
   var pickFromArray;
   var pickUpOrDown;
   var getExtent;
-  var stockSymbols;
+  var getStockSymbol;
   var upSymbols;
   var downSymbols;
   var getExtent;
@@ -12,7 +12,7 @@ function createGetStoxNumber(createOpts) {
     pickFromArray = createOpts.pickFromArray;
     pickUpOrDown = createOpts.pickUpOrDown;
     getExtent = createOpts.getExtent;
-    stockSymbols = createOpts.stockSymbols;
+    getStockSymbol = createOpts.getStockSymbol;
     upSymbols = createOpts.upSymbols;
     downSymbols = createOpts.downSymbols;
     getCommentary = createOpts.getCommentary;
@@ -28,8 +28,7 @@ function createGetStoxNumber(createOpts) {
     };
   }
 
-  function getStoxNumber(seed) {
-    var stock = pickFromArray(stockSymbols);
+  function getStoxNumber(seed, done) {
     var direction = pickUpOrDown(seed);
     var amount = direction * getExtent(seed).toFixed(1);
     var directionSymbol;
@@ -40,7 +39,20 @@ function createGetStoxNumber(createOpts) {
       directionSymbol = pickFromArray(upSymbols);
     }
     var commentary = getCommentary();
-    return stock + ' ' + directionSymbol + ' ' + amount + ' ' + commentary;
+
+    getStockSymbol(assembleStoxNumber);
+
+    function assembleStoxNumber(error, stock) {
+      if (error) {
+        done(error);
+      }
+      else {
+        done(
+          error,
+          stock + ' ' + directionSymbol + ' ' + amount + ' ' + commentary
+        );
+      }
+    }
   }
 
   return getStoxNumber;

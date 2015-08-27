@@ -75,25 +75,25 @@ function wrapUp(error, data) {
     return emojisource.getRandomTopicEmoji();
   }
 
-  getRandomStockSymbol(getStoxNumberWithSymbol);
+  var getStoxNumber = createGetStoxNumber({
+    pickFromArray: probable.pickFromArray,
+    getExtent: getStockChangeExtent,
+    // TODO: stockSymbols should be an async function, not a list.
+    getStockSymbol: getRandomStockSymbol,
+    // TODO: Should be in a data file.
+    upSymbols: ['↑', '⇑', '⇡', '⇧', '⇧', '⇪', '⟰', '⥠', '⇯', '⇈', '⇮', '⇭', '⥘', '⥔', '⇬', '⇫', '↿', '↾', '↥', '⤊', '↟', '⤉', '⇞', '⤒', '⥉'],
+    downSymbols: ['↓', '⇓', '⇩', '⇣', '☟', '⥥', '↡', '↧', '⤋', '⟱', '⇟', '⇊', '⥡', '⤈', '↯', '⥝', '⇃', '⥙', '⇂', '⥕'],
+    getCommentary: getCommentary
+  });
 
-  function getStoxNumberWithSymbol(error, symbol) {
+  getStoxNumber(seed, passToTweet);
+
+  function passToTweet(error, stoxNumber) {
     if (error) {
       console.log(error);
     }
     else {
-      var getStoxNumber = createGetStoxNumber({
-        pickFromArray: probable.pickFromArray,
-        getExtent: getStockChangeExtent,
-        // TODO: stockSymbols should be an async function, not a list.
-        stockSymbols: [symbol],
-        // TODO: Should be in a data file.
-        upSymbols: ['↑', '⇑', '⇡', '⇧', '⇧', '⇪', '⟰', '⥠', '⇯', '⇈', '⇮', '⇭', '⥘', '⥔', '⇬', '⇫', '↿', '↾', '↥', '⤊', '↟', '⤉', '⇞', '⤒', '⥉'],
-        downSymbols: ['↓', '⇓', '⇩', '⇣', '☟', '⥥', '↡', '↧', '⤋', '⟱', '⇟', '⇊', '⥡', '⤈', '↯', '⥝', '⇃', '⥙', '⇂', '⥕'],
-        getCommentary: getCommentary
-      });
-
-      postTweet(getStoxNumber(seed), wrapUp);
+      postTweet(stoxNumber, wrapUp);
     }
   }
 })());
