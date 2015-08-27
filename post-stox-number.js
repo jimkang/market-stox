@@ -6,11 +6,14 @@ var createProbable = require('probable').createProbable;
 var createGetRandomStockSymbol = require('./get-random-stock-symbol');
 var seedrandom = require('seedrandom');
 var emojisource = require('emojisource');
+var getRandomFollowerUsername = require('./get-random-follower-username');
 
 var dryRun = false;
 if (process.argv.length > 2) {
   dryRun = (process.argv[2].toLowerCase() == '--dry');
 }
+
+var twit = new Twit(config.twitter);
 
 function postTweet(text, done) {
   if (dryRun) {
@@ -18,7 +21,6 @@ function postTweet(text, done) {
     callNextTick(done);
   }
   else {
-    var twit = new Twit(config.twitter);
     var body = {
       status: text
     };
@@ -75,11 +77,20 @@ function wrapUp(error, data) {
     return emojisource.getRandomTopicEmoji();
   }
 
+  function getStockSymbol(done) {
+    if (probable.roll(4) === 0) {
+      getRandomFollowerUsername(twit, probable.pickFromArray, done);
+    }
+    else {
+      getRandomStockSymbol(done);
+    }
+  }
+
   var getStoxNumber = createGetStoxNumber({
     pickFromArray: probable.pickFromArray,
     getExtent: getStockChangeExtent,
     // TODO: stockSymbols should be an async function, not a list.
-    getStockSymbol: getRandomStockSymbol,
+    getStockSymbol: getStockSymbol,
     // TODO: Should be in a data file.
     upSymbols: ['↑', '⇑', '⇡', '⇧', '⇧', '⇪', '⟰', '⥠', '⇯', '⇈', '⇮', '⇭', '⥘', '⥔', '⇬', '⇫', '↿', '↾', '↥', '⤊', '↟', '⤉', '⇞', '⤒', '⥉'],
     downSymbols: ['↓', '⇓', '⇩', '⇣', '☟', '⥥', '↡', '↧', '⤋', '⟱', '⇟', '⇊', '⥡', '⤈', '↯', '⥝', '⇃', '⥙', '⇂', '⥕'],
