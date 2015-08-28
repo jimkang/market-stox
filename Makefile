@@ -3,6 +3,7 @@ GITDIR = /var/repos/market-stox.git
 
 test:
 	node tests/basictests.js
+	node tests/generate-stock-symbol-for-name-tests.js
 
 sync-worktree-to-git:
 	git --work-tree=$(HOMEDIR) --git-dir=$(GITDIR) checkout -f
