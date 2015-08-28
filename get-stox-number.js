@@ -52,8 +52,8 @@ function createGetStoxNumber(createOpts) {
       else {
         done(
           error,
-          stock.company + ' ･ $' + stock.symbol + ' ' + directionSymbol + ' ' +
-            amount + ' ' + commentary
+          stock.company + ' ･ $' + stock.symbol + '\n\n' +
+            directionSymbol + ' ' + amount + ' ' + commentary
         );
       }
     }
