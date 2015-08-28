@@ -22,10 +22,10 @@ function createGetRandomStock(createOpts) {
         fromLine: lineIndex,
         lineCount: 1
       },
-      getQuoteFromLines
+      getStockDataFromLines
     );
 
-    function getQuoteFromLines(error, lines) {
+    function getStockDataFromLines(error, lines) {
       var line;
       if (error) {
         done(error);
@@ -36,13 +36,16 @@ function createGetRandomStock(createOpts) {
       }
       else {
         line = lines[0];
-        done(error, getQuoteFromLine(line));
+        done(error, getStockDataFromLine(line));
       }
     }
 
-    function getQuoteFromLine(line) {
+    function getStockDataFromLine(line) {
       var parts = line.split('|');
-      return parts[1];
+      return {
+        company: parts[2],
+        symbol: parts[1]
+      };
     }
   }
 

@@ -21,15 +21,19 @@ test('Basic test', function basicTest(t) {
     return '♥️';
   }
 
-  function mockGetSymbol(done) {
-    callNextTick(done, null, 'AAPL');
+  function mockGetStock(done) {
+    var stock = {
+      company: 'Apple',
+      symbol: 'AAPL'
+    };
+    callNextTick(done, null, stock);
   }
 
   var getStoxNumber = createGetStoxNumber({
     pickFromArray: mockPick,
     pickUpOrDown: mockPickUpOrDown,
     getExtent: mockGetExtent,
-    getStockSymbol: mockGetSymbol,
+    getStock: mockGetStock,
     upSymbols: ['↑', '⇑', '⇡', '⇧', '⇧', '⇪', '⟰', '⥠', '⇯', '⇈', '⇮', '⇭', '⥘', '⥔', '⇬', '⇫', '↿', '↾', '↥', '⤊', '↟', '⤉', '⇞', '⤒', '⥉'],
     downSymbols: ['↓', '⇓', '⇩', '⇣', '☟', '⥥', '↡', '↧', '⤋', '⟱', '⇟', '⇊', '⥡', '⤈', '↯', '⥝', '⇃', '⥙', '⇂', '⥕'],
     getCommentary: mockGetCommentary
@@ -39,6 +43,6 @@ test('Basic test', function basicTest(t) {
 
   function checkStox(error, stox) {
     t.ok(!error, 'No error whe getting stox number.');
-    t.equal(stox, 'AAPL ↓ -500.5 ♥️', 'Generates stox number.');
+    t.equal(stox, 'Apple ($AAPL) ↓ -500.5 ♥️', 'Generates stox number.');
   }
 });
