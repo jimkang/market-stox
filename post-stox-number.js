@@ -63,6 +63,12 @@ function wrapUp(error, data) {
     1000: 1
   });
 
+  var sourceTypeTable = probable.createRangeTableFromDict({
+    nasdaq: 20,
+    wordnikTopic: 25,
+    follower: 10
+  });
+
   function pickLineIndex(numberOfLines) {
     // Last line is going to be a time stamp; don't pick that.
     return probable.rollDie(numberOfLines - 1);
@@ -83,15 +89,16 @@ function wrapUp(error, data) {
   }
 
   function getStock(done) {
-    var roll = probable.roll(4);
-    if (roll === 0) {
-      getRandomFollowerUsername(twit, probable.pickFromArray, wrapNameInStock);
-    }
-    else if (roll == 1) {
-      wordnok.getTopic(wrapNameInStock);
-    }
-    else {
-      getRandomStock(done);
+    switch (sourceTypeTable.roll()) {
+      case 'nasdaq':
+        getRandomFollowerUsername(twit, probable.pickFromArray, wrapNameInStock);
+        break;
+      case 'wordnikTopic':
+        wordnok.getTopic(wrapNameInStock);
+        break;
+      case 'follower':
+        getRandomStock(done);
+        break;
     }
 
     function wrapNameInStock(error, name) {
