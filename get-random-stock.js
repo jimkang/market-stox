@@ -42,8 +42,14 @@ function createGetRandomStock(createOpts) {
 
     function getStockDataFromLine(line) {
       var parts = line.split('|');
+      var company = parts[2];
+      company = company.replace(/( - )*Common Stock/, '');
+      if (company.indexOf(' - ') !== -1) {
+        company = company.split(' - ')[0];
+      }
+
       return {
-        company: parts[2],
+        company: company,
         symbol: parts[1]
       };
     }

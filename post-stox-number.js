@@ -8,6 +8,8 @@ var seedrandom = require('seedrandom');
 var emojisource = require('emojisource');
 var getRandomFollowerUsername = require('./get-random-follower-username');
 var createWordnok = require('wordnok').createWordnok;
+var generateStockSymbolForName = require('./generate-stock-symbol-for-name');
+var toTitleCase = require('titlecase');
 
 var dryRun = false;
 if (process.argv.length > 2) {
@@ -83,14 +85,35 @@ function wrapUp(error, data) {
   function getStock(done) {
     var roll = probable.roll(4);
     if (roll === 0) {
-      getRandomFollowerUsername(twit, probable.pickFromArray, done);
+      getRandomFollowerUsername(twit, probable.pickFromArray, wrapNameInStock);
     }
     else if (roll == 1) {
-      wordnok.getTopic(done);
+      wordnok.getTopic(wrapNameInStock);
     }
     else {
       getRandomStock(done);
     }
+
+    function wrapNameInStock(error, name) {
+      if (error) {
+        done(error);
+      }
+      else {
+        var stockDatum = {};
+
+        if (name[0] === '@') {
+          // Twitter username
+          stockDatum.symbol = generateStockSymbolForName(name.slice(1));
+          stockDatum.company = name;
+        }
+        else {
+          stockDatum.symbol = generateStockSymbolForName(name);
+          stockDatum.company = toTitleCase(name);
+        }
+
+        done(error, stockDatum);
+      }
+    }    
   }
 
   var getStoxNumber = createGetStoxNumber({
