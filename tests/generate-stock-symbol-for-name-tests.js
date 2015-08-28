@@ -8,7 +8,8 @@ var expectedSymbolsForNames = {
   galyngale: 'GLGE',
   gobstoppers: 'GBPS',
   cat: 'CAT',
-  'Thomas Aquinas': 'TA'
+  'Thomas Aquinas': 'TA',
+  trowl: 'TROL'
 };
 
 Object.keys(expectedSymbolsForNames).forEach(runTest);

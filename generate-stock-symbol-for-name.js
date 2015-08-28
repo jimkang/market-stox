@@ -41,6 +41,9 @@ function summarizeMiddle(middleOfName) {
   }
   else {
     var index1 = ~~(l * 0.333) - 1;
+    if (index1 < 0) {
+      index1 = 0;
+    }
     var index2 = ~~(l * 0.666);
     summary = middleOfName[index1] + middleOfName[index2];
   }
