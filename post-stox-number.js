@@ -66,7 +66,7 @@ function wrapUp(error, data) {
   var sourceTypeTable = probable.createRangeTableFromDict({
     nasdaq: 20,
     wordnikTopic: 25,
-    Friend: 10
+    friend: 10
   });
 
   function pickLineIndex(numberOfLines) {
@@ -91,13 +91,13 @@ function wrapUp(error, data) {
   function getStock(done) {
     switch (sourceTypeTable.roll()) {
       case 'nasdaq':
-        getRandomFriendUsername(twit, probable.pickFromArray, wrapNameInStock);
+        getRandomStock(done);
         break;
       case 'wordnikTopic':
         wordnok.getTopic(wrapNameInStock);
         break;
-      case 'Friend':
-        getRandomStock(done);
+      case 'friend':
+        getRandomFriendUsername(twit, probable.pickFromArray, wrapNameInStock);
         break;
     }
 
