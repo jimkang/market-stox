@@ -2,13 +2,13 @@ var lineChomper = require('line-chomper');
 var jsonfile = require('jsonfile');
 var numberOfLinesInTxtFile = 8349;
 
-function createGetRandomStockSymbol(createOpts) {
+function createGetRandomStock(createOpts) {
   var pickLineIndex;
   if (createOpts) {
     pickLineIndex = createOpts.pickLineIndex;
   }
 
-  function getRandomStockSymbol(done) {
+  function getRandomStock(done) {
     var offsets = jsonfile.readFileSync(
       __dirname + '/data/nasdaqtraded-offsets.json'
     );
@@ -46,7 +46,7 @@ function createGetRandomStockSymbol(createOpts) {
     }
   }
 
-  return getRandomStockSymbol;
+  return getRandomStock;
 }
 
-module.exports = createGetRandomStockSymbol;
+module.exports = createGetRandomStock;

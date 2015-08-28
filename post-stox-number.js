@@ -3,7 +3,7 @@ var callNextTick = require('call-next-tick');
 var Twit = require('twit');
 var createGetStoxNumber = require('./get-stox-number');
 var createProbable = require('probable').createProbable;
-var createGetRandomStockSymbol = require('./get-random-stock-symbol');
+var createGetRandomStock = require('./get-random-stock');
 var seedrandom = require('seedrandom');
 var emojisource = require('emojisource');
 var getRandomFollowerUsername = require('./get-random-follower-username');
@@ -66,7 +66,7 @@ function wrapUp(error, data) {
     return probable.rollDie(numberOfLines - 1);
   }
 
-  var getRandomStockSymbol = createGetRandomStockSymbol({
+  var getRandomStock = createGetRandomStock({
     pickLineIndex: pickLineIndex
   });
 
@@ -80,7 +80,7 @@ function wrapUp(error, data) {
     return emojisource.getRandomTopicEmoji();
   }
 
-  function getStockSymbol(done) {
+  function getStock(done) {
     var roll = probable.roll(4);
     if (roll === 0) {
       getRandomFollowerUsername(twit, probable.pickFromArray, done);
@@ -89,14 +89,14 @@ function wrapUp(error, data) {
       wordnok.getTopic(done);
     }
     else {
-      getRandomStockSymbol(done);
+      getRandomStock(done);
     }
   }
 
   var getStoxNumber = createGetStoxNumber({
     pickFromArray: probable.pickFromArray,
     getExtent: getStockChangeExtent,
-    getStockSymbol: getStockSymbol,
+    getStock: getStock,
     // TODO: Should be in a data file.
     upSymbols: ['↑', '⇑', '⇡', '⇧', '⇧', '⇪', '⟰', '⥠', '⇯', '⇈', '⇮', '⇭', '⥘', '⥔', '⇬', '⇫', '↿', '↾', '↥', '⤊', '↟', '⤉', '⇞', '⤒', '⥉'],
     downSymbols: ['↓', '⇓', '⇩', '⇣', '☟', '⥥', '↡', '↧', '⤋', '⟱', '⇟', '⇊', '⥡', '⤈', '↯', '⥝', '⇃', '⥙', '⇂', '⥕'],
