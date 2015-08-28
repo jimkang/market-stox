@@ -43,6 +43,6 @@ test('Basic test', function basicTest(t) {
 
   function checkStox(error, stox) {
     t.ok(!error, 'No error whe getting stox number.');
-    t.equal(stox, 'Apple ($AAPL) ↓ -500.5 ♥️', 'Generates stox number.');
+    t.equal(stox, 'Apple ･ $AAPL ↓ -500.5 ♥️', 'Generates stox number.');
   }
 });
