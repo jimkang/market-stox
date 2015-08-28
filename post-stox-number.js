@@ -6,7 +6,7 @@ var createProbable = require('probable').createProbable;
 var createGetRandomStock = require('./get-random-stock');
 var seedrandom = require('seedrandom');
 var emojisource = require('emojisource');
-var getRandomFollowerUsername = require('./get-random-follower-username');
+var getRandomFriendUsername = require('./get-random-friend-username');
 var createWordnok = require('wordnok').createWordnok;
 var generateStockSymbolForName = require('./generate-stock-symbol-for-name');
 var toTitleCase = require('titlecase');
@@ -66,7 +66,7 @@ function wrapUp(error, data) {
   var sourceTypeTable = probable.createRangeTableFromDict({
     nasdaq: 20,
     wordnikTopic: 25,
-    follower: 10
+    Friend: 10
   });
 
   function pickLineIndex(numberOfLines) {
@@ -91,12 +91,12 @@ function wrapUp(error, data) {
   function getStock(done) {
     switch (sourceTypeTable.roll()) {
       case 'nasdaq':
-        getRandomFollowerUsername(twit, probable.pickFromArray, wrapNameInStock);
+        getRandomFriendUsername(twit, probable.pickFromArray, wrapNameInStock);
         break;
       case 'wordnikTopic':
         wordnok.getTopic(wrapNameInStock);
         break;
-      case 'follower':
+      case 'Friend':
         getRandomStock(done);
         break;
     }
