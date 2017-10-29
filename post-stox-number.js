@@ -64,7 +64,7 @@ function wrapUp(error, data) {
   });
 
   var sourceTypeTable = probable.createRangeTableFromDict({
-    nasdaq: 25,
+    nasdaq: 15,
     wordnikTopic: 50,
     friend: 10
   });
